@@ -1,0 +1,32 @@
+name: main
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 16 * * *"
+    watch:
+        types: [started]
+
+jobs:
+    build:
+        runs-on: windows-latest
+        if: github.event.repository.owner.id == github.event.sender.id
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: "Set up Python"
+              uses: actions/setup-python@v1
+              with:
+                python-version: 3.8
+
+            - name: "安装依赖包"
+              run: |
+                  pip install -r ./requirements.txt
+
+            - name: "运行 文叔叔签到"
+              run: python Sign_WenShuShu_selenium.py
+              env:
+                  USER: ${{ secrets.USER }}
+                  PASSWORD: ${{ secrets.PASSWORD }}
+                  PUSH_MESSAGE: ${{ secrets.PUSH_MESSAGE }}
