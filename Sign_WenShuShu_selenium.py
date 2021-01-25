@@ -29,9 +29,11 @@ try:
     time.sleep(1)
     b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
     time.sleep(1)
-    a = b.find_elements_by_xpath("//*[contains(text(), '今日已打卡')]")
-    if len(a)==0:
-        send(SCKEY,'文叔叔签到失败')
+    html=b.page_source
+    html = html.encode("utf8").decode("utf-8")
+    if not ('今日已打卡' in html):
+        send(SCKEY, '文叔叔签到失败')
+    print(html)
 except:
     send(SCKEY, '文叔叔签到失败，未知错误')
 
