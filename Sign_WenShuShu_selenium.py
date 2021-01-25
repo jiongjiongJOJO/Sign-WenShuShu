@@ -13,7 +13,7 @@ try:
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    b = webdriver.Chrome('chromedriver.exe', chrome_options=chrome_options)
+    b = webdriver.Chrome('chromedriver.exe', options=chrome_options)
 
     b.get('https://www.wenshushu.cn/signin')
     time.sleep(3)
