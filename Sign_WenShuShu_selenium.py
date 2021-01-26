@@ -31,7 +31,7 @@ try:
     time.sleep(1)
     html=b.page_source
     html = html.encode("utf8").decode("utf-8")
-    if not ('今日已打卡' in html):
+    if not ('今日已打卡' in html or '打卡成功' in html):
         send(SCKEY, '文叔叔签到失败')
     print(html)
 except:
