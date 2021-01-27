@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 import requests
 import time
 import os
+import re
 def send(sckey,text):
     requests.get('https://sc.ftqq.com/'+sckey+'.send?text='+text)
 user = os.environ.get('USER')
