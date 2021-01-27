@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 import requests
 import time
 import os
+import sys, io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="urf-8")
 def send(sckey,text):
     requests.get('https://sc.ftqq.com/'+sckey+'.send?text='+text)
 user = os.environ.get('USER')
