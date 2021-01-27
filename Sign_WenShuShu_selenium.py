@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import logging
 import requests
 import time
 import os
@@ -36,7 +37,7 @@ if ('今日已打卡' in html or '打卡成功' in html):
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
     for i in range(len(names)):
-        print('%s:%s' % (names[i],values[i].strip()))
+        logger.info('%s:%s' % (names[i],values[i].strip()))
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
 else:
     send(SCKEY, '文叔叔签到失败')
