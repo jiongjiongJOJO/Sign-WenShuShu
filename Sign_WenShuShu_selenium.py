@@ -34,10 +34,8 @@ html=b.page_source
 if ('今日已打卡' in html or '打卡成功' in html):
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
-    print(names)
-    print(values)
     for i in range(len(names)):
-        print(names[i],values[i].strip())
+        print('%s:%s' % (names[i],values[i].strip()))
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
 else:
     send(SCKEY, '文叔叔签到失败')
