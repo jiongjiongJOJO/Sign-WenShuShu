@@ -39,8 +39,7 @@ if ('今日已打卡' in html or '打卡成功' in html):
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
     for i in range(len(names)):
-        #logger.info('%s:%s' % (names[i].encode('utf-8').decode('unicode_escape'),values[i].strip().encode('utf-8').decode('unicode_escape')))
-        logger.info('%s:%s' % (names[i].replace('\\','''\'''),values[i].replace('\\','''\''')))
+        logger.info('%s:%s' % (names[i].encode('utf8').decode('unicode_escape'),values[i].strip().encode('utf8').decode('unicode_escape')))
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
 else:
     send(SCKEY, '文叔叔签到失败')
