@@ -1,3 +1,4 @@
+# coding=utf-8
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import requests
@@ -34,7 +35,3 @@ html = html.encode("utf8").decode("utf-8")
 if not ('今日已打卡' in html or '打卡成功' in html):
     send(SCKEY, '文叔叔签到失败')
 print(html)
-
-
-
-
