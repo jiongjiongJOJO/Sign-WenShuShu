@@ -31,7 +31,7 @@ time.sleep(1)
 b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
 time.sleep(1)
 html=b.page_source
-html = html.encode("utf8").decode("utf-8")
+html = html.encode("utf-8").decode("utf-8")
 if not ('今日已打卡' in html or '打卡成功' in html):
     send(SCKEY, '文叔叔签到失败')
 print(html)
