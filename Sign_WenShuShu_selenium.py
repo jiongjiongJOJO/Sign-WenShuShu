@@ -5,6 +5,8 @@ import requests
 import time
 import os
 import re
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 def send(sckey,text):
     requests.get('https://sc.ftqq.com/'+sckey+'.send?text='+text)
 user = os.environ.get('USER')
