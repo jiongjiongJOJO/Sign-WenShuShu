@@ -31,12 +31,10 @@ time.sleep(1)
 b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
 time.sleep(1)
 html=b.page_source
-print(html.encode(encoding='UTF-8',errors='strict'))
 if ('今日已打卡' in html or '打卡成功' in html):
+    html = html.replace('\n','')
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
-    print(len(names))
-    print(len(values))
     for i in range(len(names)):
         print('%s:%s' % (names[i],values[i].strip()))
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
