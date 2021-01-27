@@ -41,7 +41,7 @@ if ('今日已打卡' in html or '打卡成功' in html):
     for i in range(len(names)):
         #logger.info('%s:%s' % (names[i].encode('gb2312').decode('unicode_escape'),values[i].strip().encode('gb2312').decode('unicode_escape')))
         #eval("u\"" + s2 + "\"")
-        logger.info('%s:%s' % (names[i].encode('gbk').decode('unicode_escape'),values[i].strip().encode('gbk').decode('unicode_escape')))
+        logger.info('%s:%s' % (names[i].encode('UTF-8').decode('unicode_escape'),values[i].strip().encode('UTF-8').decode('unicode_escape')))
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
 else:
     send(SCKEY, '文叔叔签到失败')
