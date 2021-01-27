@@ -3,8 +3,6 @@ from selenium.webdriver.chrome.options import Options
 import requests
 import time
 import os
-#import sys, io
-#sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="urf-8")
 def send(sckey,text):
     requests.get('https://sc.ftqq.com/'+sckey+'.send?text='+text)
 user = os.environ.get('USER')
@@ -32,7 +30,12 @@ time.sleep(1)
 b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
 time.sleep(1)
 html=b.page_source
-if not ('今日已打卡' in html or '打卡成功' in html):
-    send(SCKEY, '文叔叔签到失败')
+if ('今日已打卡' in html or '打卡成功' in html):
+    names = re.compile('class="m-title5">(.*?)</div>').findall(html)
+    values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
+    for i in range(len(names)):
+        print(names[i],values[i].strip())
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
-print(html)
+else:
+    send(SCKEY, '文叔叔签到失败')
+    print(html.encode(encoding='UTF-8',errors='strict'))
