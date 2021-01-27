@@ -33,4 +33,4 @@ time.sleep(1)
 html=b.page_source
 if not ('今日已打卡' in html or '打卡成功' in html):
     send(SCKEY, '文叔叔签到失败')
-print(html.encode("raw_unicode_escape").decode("utf-8","ignore").encode('utf-8').decode('unicode_escape'))
+print(html)
