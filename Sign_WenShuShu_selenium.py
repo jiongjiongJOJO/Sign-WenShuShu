@@ -31,6 +31,7 @@ time.sleep(1)
 b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
 time.sleep(1)
 html=b.page_source
+print(html.encode(encoding='UTF-8',errors='strict'))
 if ('今日已打卡' in html or '打卡成功' in html):
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
@@ -41,4 +42,4 @@ if ('今日已打卡' in html or '打卡成功' in html):
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
 else:
     send(SCKEY, '文叔叔签到失败')
-    print(html.encode(encoding='UTF-8',errors='strict'))
+    #print(html.encode(encoding='UTF-8',errors='strict'))
