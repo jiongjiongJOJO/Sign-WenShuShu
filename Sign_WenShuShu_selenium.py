@@ -38,12 +38,14 @@ time.sleep(1)
 html=b.page_source
 if ('今日已打卡' in html or '打卡成功' in html):
     html = html.replace('\n','')
-    send(push_token, html)
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
+    result = ''
     for i in range(len(names)):
+        result += names[i]+'：'+values[i]+'\n'
         logger.info('%s:%s' % (names[i].encode('utf8').decode('unicode_escape'),values[i].strip().encode('utf8').decode('unicode_escape')))
         #logger.info('%s:%s' % (names[i],values[i]))
+    send(push_token, result)
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
 else:
     send(push_token, html)
