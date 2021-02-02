@@ -26,33 +26,23 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 b = webdriver.Chrome('chromedriver.exe', options=chrome_options)
 
 b.get('https://www.wenshushu.cn/signin')
-try:
-    #等待页面加载完成
-    element = WebDriverWait(b, 2).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/ul/li[2]')))
-finally:
-    #登录
-    b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/ul/li[2]').click()
-    b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/div[1]/div[2]/input').send_keys(user)
-    b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/div[2]/div[2]/input').send_keys(password)
-    b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/button/span/span').click()
 
-try:
-    element = WebDriverWait(b, 2).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i')))
-finally:
-    #刷新页面，排除弹窗
-    b.refresh()
+b.implicitly_wait(10)
+b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/ul/li[2]').click()
+b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/div[1]/div[2]/input').send_keys(user)
+b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/div[2]/div[2]/input').send_keys(password)
+b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/button/span/span').click()
 
-try:
-    element = WebDriverWait(b, 2).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i')))
-finally:
-    #点击签到键
-    b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
+b.implicitly_wait(10)
+b.refresh()
 
-try:
-    element = WebDriverWait(b, 2).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[5]/div[2]/div/div/div/div[2]/div[1]/div[1]')))
-finally:
-    #获取页面源码
-    html=b.page_source
+b.implicitly_wait(10)
+b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
+
+b.implicitly_wait(10)
+#获取页面源码
+html=b.page_source
+
 if ('今日已打卡' in html or '打卡成功' in html):
     html = html.replace('\n','')
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
