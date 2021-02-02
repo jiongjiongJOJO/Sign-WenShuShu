@@ -37,7 +37,6 @@ time.sleep(1)
 html=b.page_source
 if ('今日已打卡' in html or '打卡成功' in html):
     html = html.replace('\n','')
-    print(html)
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
     for i in range(len(names)):
