@@ -59,6 +59,8 @@ if ('今日已打卡' in html or '打卡成功' in html):
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
     result = ''
     for i in range(len(names)):
+        if(names[i]=='手气不好'):
+            continue
         result += names[i]+'：'+values[i]+'</br>'
         logger.info('%s:%s' % (names[i].encode('utf8').decode('unicode_escape'),values[i].strip().encode('utf8').decode('unicode_escape')))
     send(push_token,'文叔叔签到成功', result)
