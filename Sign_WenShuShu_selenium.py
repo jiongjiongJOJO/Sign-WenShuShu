@@ -42,11 +42,11 @@ if ('今日已打卡' in html or '打卡成功' in html):
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
     result = ''
     for i in range(len(names)):
-        result += names[i]+'：'+values[i]+'\n'
+        result += names[i]+'：'+values[i]+'</br>'
         logger.info('%s:%s' % (names[i].encode('utf8').decode('unicode_escape'),values[i].strip().encode('utf8').decode('unicode_escape')))
         #logger.info('%s:%s' % (names[i],values[i]))
     send(push_token,'文叔叔签到成功', result)
-    print(result)
+    print(result.decode('utf-8').encode('cp850','replace').decode('cp850'))
 #print(html.encode(encoding='UTF-8',errors='strict').decode('UTF-8'))
 else:
     send(push_token,'文叔叔签到失败', html)
