@@ -7,6 +7,7 @@ import os
 import re
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+message = {''}
 def send(sckey,text):
     requests.get('https://sc.ftqq.com/'+sckey+'.send?text='+text)
 user = os.environ.get('USER')
@@ -36,6 +37,7 @@ time.sleep(1)
 html=b.page_source
 if ('今日已打卡' in html or '打卡成功' in html):
     html = html.replace('\n','')
+    print(html)
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
     values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
     for i in range(len(names)):
