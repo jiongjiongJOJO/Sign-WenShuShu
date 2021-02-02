@@ -49,7 +49,11 @@ finally:
     #点击签到键
     b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
 
-html=b.page_source
+try:
+    element = WebDriverWait(b, 2).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[5]/div[2]/div/div/div/div[2]/div[1]/div[1]')))
+finally:
+    #获取页面源码
+    html=b.page_source
 if ('今日已打卡' in html or '打卡成功' in html):
     html = html.replace('\n','')
     names = re.compile('class="m-title5">(.*?)</div>').findall(html)
