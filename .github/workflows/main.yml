@@ -22,7 +22,6 @@ jobs:
 
             - name: "安装依赖包"
               run: |
-                  c:\hostedtoolcache\windows\python\3.8.6\x64\python.exe -m pip install --upgrade pip
                   pip install -r ./requirements.txt
 
             - name: "运行 文叔叔签到"
