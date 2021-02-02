@@ -58,7 +58,6 @@ if ('今日已打卡' in html or '打卡成功' in html):
         result += names[i]+'：'+values[i]+'</br>'
         logger.info('%s:%s' % (names[i].encode('utf8').decode('unicode_escape'),values[i].strip().encode('utf8').decode('unicode_escape')))
     send(push_token,'文叔叔签到成功', result)
-    print(result.encode('utf8').decode('utf-8').encode('cp936','replace').decode('cp936'))
 else:
     send(push_token,'文叔叔签到失败', html)
     logger.info(html.encode(encoding='UTF-8',errors='strict'))
