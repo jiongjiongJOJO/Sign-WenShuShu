@@ -37,9 +37,11 @@ time.sleep(1)
 
 b.implicitly_wait(10)
 b.refresh()
+time.sleep(1)
 
 b.implicitly_wait(10)
 b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
+time.sleep(1)
 
 b.implicitly_wait(10)
 #获取页面源码
