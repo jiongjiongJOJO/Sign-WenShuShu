@@ -69,3 +69,5 @@ if '今日已打卡' in html or '打卡成功' in html:
 else:
     send(push_token, '文叔叔签到失败', html)
     logger.info(html.encode(encoding='UTF-8', errors='strict'))
+
+b.quit()
