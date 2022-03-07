@@ -16,9 +16,9 @@ push_token = os.environ.get('PUSH_MESSAGE')
 
 
 def send(push_token, title, text):
-    # http://pushplus.hxtrip.com/send?token=XXXXX&title=XXX&content=XXX&template=html
+    # http://www.pushplus.plus/send?token=XXXXX&title=XXX&content=XXX&template=html
     requests.get(
-        'http://pushplus.hxtrip.com/send?token=' + push_token + '&title=' + title + '&content=' + text + '&template=html')
+        'http://www.pushplus.plus/send?token=' + push_token + '&title=' + title + '&content=' + text + '&template=html')
 
 
 chrome_options = Options()
