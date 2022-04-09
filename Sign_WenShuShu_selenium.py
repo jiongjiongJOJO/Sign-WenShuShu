@@ -20,6 +20,13 @@ user = os.environ.get('USER')
 password = os.environ.get('PASSWORD')
 push_token = os.environ.get('PUSH_MESSAGE')
 
+if(user is None):
+    exit()
+if(password is None):
+    exit()
+if(push_token is None):
+    push_token = ""
+
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
@@ -29,10 +36,10 @@ b = webdriver.Chrome('chromedriver.exe', options=chrome_options)
 b.get('https://www.wenshushu.cn/signin')
 
 b.implicitly_wait(10)
-b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[1]/ul/li[2]').click()
-b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/div[1]/div[2]/input').send_keys(user)
-b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/div[2]/div[2]/input').send_keys(password)
-b.find_element_by_xpath('/html/body/div[2]/div/div[1]/div[2]/div[1]/div/button/span/span').click()
+b.find_element_by_xpath('//*[contains(text(),"密码")]').click()
+b.find_element_by_xpath('//*[@placeholder="手机号 / 邮箱"]').send_keys(user)
+b.find_element_by_xpath('//*[@placeholder="密码"]').send_keys(password)
+b.find_element_by_xpath('//*[@type="submit"]').click()
 time.sleep(1)
 
 b.implicitly_wait(10)
@@ -61,3 +68,5 @@ if ('今日已打卡' in html or '打卡成功' in html):
 else:
     send(push_token,'文叔叔签到失败', html)
     logger.info(html.encode(encoding='UTF-8',errors='strict'))
+
+b.close()
