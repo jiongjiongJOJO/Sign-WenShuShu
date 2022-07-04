@@ -51,7 +51,7 @@ b.refresh()
 time.sleep(1)
 
 b.implicitly_wait(10)
-b.find_element(by=By.XPATH, value='/html/body/div[2]/div/div[1]/div[1]/div[3]/div[2]/i').click()
+b.find_element(by=By.CLASS_NAME, value="icondaka").click()
 time.sleep(1)
 
 b.implicitly_wait(10)
