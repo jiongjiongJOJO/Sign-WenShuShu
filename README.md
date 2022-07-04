@@ -7,7 +7,7 @@
 # 使用教程
 
 ### 1.获取Push Plus Token
-**首先打开[Push Plus](http://pushplus.hxtrip.com/)点击登录，并使用微信扫描二维码**
+**首先打开[Push Plus](http://www.pushplus.plus/)点击登录，并使用微信扫描二维码**
 **之后点击**一对一推送**获取自己的Token**
 
 ### 2.fork本项目
@@ -16,10 +16,11 @@
 ### 3.部署
 **在fork后的github仓库的 “Settings” -->“Secrets” 中添加"Secrets"，name(不用在意大小写)和value分别为：**
 ```
-PUSH_TOKEN
-key
+USER   必填  value是你的账号
+PASSWORD   必填   value是你的密码
+PUSH_MESSAGE   选填   value是第一步获取到的Token
 ```
-**这里的key就是自己再第一步获取到的Token**
+
 
 ### 4.运行脚本
 **添加完上面的"Secrets"后，进入"Actions" -->"run main"，点击右边的"Run workflow"即可第一次启动**
