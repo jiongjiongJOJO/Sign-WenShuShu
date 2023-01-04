@@ -51,6 +51,11 @@ b.refresh()
 time.sleep(1)
 
 b.implicitly_wait(10)
+if b.find_element(by=By.CLASS_NAME, value="btn_close"):
+    b.find_element(by=By.CLASS_NAME, value="btn_close").click()
+time.sleep(1)
+
+b.implicitly_wait(10)
 b.find_element(by=By.CLASS_NAME, value="icondaka").click()
 time.sleep(1)
 
