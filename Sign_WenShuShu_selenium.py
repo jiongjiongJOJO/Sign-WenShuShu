@@ -85,7 +85,19 @@ if __name__ == '__main__':
     msgs = []
 
     for user in users.split(';'):
-        Fxxk_wss(user, password, push_token, msgs)
+        retry = 0
+        while retry < 5:
+            success = True
+            try:
+                Fxxk_wss(user, password, push_token, msgs)
+            except Exception as e:
+                logger.error("exception: ", e)
+                logger.info("retry time ", retry + 1)
+                success = False
+            finally:
+                retry = retry + 1
+            if success:
+                break
 
     push_text = ''
     for msg in msgs:
