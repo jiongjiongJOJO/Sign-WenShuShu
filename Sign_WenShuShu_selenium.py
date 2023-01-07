@@ -91,8 +91,8 @@ if __name__ == '__main__':
             try:
                 Fxxk_wss(user, password, push_token, msgs)
             except Exception as e:
-                logger.error("exception: ", e)
-                logger.info("retry time ", retry + 1)
+                logger.error("no response exception raised")
+                logger.info("retry time " + str(retry + 1))
                 success = False
             finally:
                 retry = retry + 1
