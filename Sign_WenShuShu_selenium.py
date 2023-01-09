@@ -14,7 +14,7 @@ def send(push_token, title, text):
     # http://www.pushplus.plus/send?token=XXXXX&title=XXX&content=XXX&template=html
     requests.get(f"http://www.pushplus.plus/send?token={push_token}&title={title}&content={text}&template=html")
 
-def Fxxk_wss(user, password, token, msgs : list):
+def sign_wss(user, password, token, msgs : list):
     chrome_options = Options()
     # 浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败
     chrome_options.add_argument('--headless')
@@ -26,7 +26,7 @@ def Fxxk_wss(user, password, token, msgs : list):
     b.get('https://www.wenshushu.cn/signin')
 
     b.implicitly_wait(10)
-    logger.info("login...")
+    logger.info("正在登陆...")
     b.find_element(by=By.XPATH, value='//*[contains(text(),"密码登录")]').click()
     time.sleep(1)
     b.find_element(by=By.XPATH, value='//*[@placeholder="手机号 / 邮箱"]').send_keys(user)
@@ -41,7 +41,7 @@ def Fxxk_wss(user, password, token, msgs : list):
     time.sleep(1)
 
     try:
-        logger.info("close ad...")
+        logger.info("关闭广告和新手任务中...")
         if b.find_element(by=By.CLASS_NAME, value="btn_close"):
             b.find_element(by=By.CLASS_NAME, value="btn_close").click()
         time.sleep(1)
@@ -49,7 +49,7 @@ def Fxxk_wss(user, password, token, msgs : list):
         pass
 
     b.implicitly_wait(10)
-    logger.info("daka...")
+    logger.info("{user} 正在打卡...".format(user=user))
     b.find_element(by=By.CLASS_NAME, value="icondaka").click()
     time.sleep(1)
 
@@ -72,7 +72,7 @@ def Fxxk_wss(user, password, token, msgs : list):
         msg = (user + ',文叔叔签到成功,', result)
     else:
         msg = (user + ',文叔叔签到失败,', html)
-        logger.info(html.encode(encoding='UTF-8', errors='strict'))
+        logger.error(html.encode(encoding='UTF-8', errors='strict'))
     msgs.append(msg)
 
     b.close()
@@ -98,10 +98,10 @@ if __name__ == '__main__':
         while retry < 5:
             success = True
             try:
-                Fxxk_wss(user, password, push_token, msgs)
+                sign_wss(user, password, push_token, msgs)
             except Exception as e:
-                logger.error("no response exception raised")
-                logger.info("retry time " + str(retry + 1))
+                logger.error("签到{user}账户时出现异常".format(user=user))
+                logger.info("已重试次数： " + str(retry + 1))
                 success = False
             finally:
                 retry = retry + 1
