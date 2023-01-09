@@ -5,6 +5,7 @@ import time
 
 import requests
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
@@ -25,9 +26,13 @@ def Fxxk_wss(user, password, token, msgs : list):
     b.get('https://www.wenshushu.cn/signin')
 
     b.implicitly_wait(10)
-    b.find_element(by=By.XPATH, value='//*[contains(text(),"密码")]').click()
+    logger.info("login...")
+    b.find_element(by=By.XPATH, value='//*[contains(text(),"密码登录")]').click()
+    time.sleep(1)
     b.find_element(by=By.XPATH, value='//*[@placeholder="手机号 / 邮箱"]').send_keys(user)
+    time.sleep(1)
     b.find_element(by=By.XPATH, value='//*[@placeholder="密码"]').send_keys(password)
+    time.sleep(1)
     b.find_element(by=By.XPATH, value='//*[@type="submit"]').click()
     time.sleep(1)
 
@@ -35,12 +40,16 @@ def Fxxk_wss(user, password, token, msgs : list):
     b.refresh()
     time.sleep(1)
 
-    b.implicitly_wait(10)
-    if b.find_element(by=By.CLASS_NAME, value="btn_close"):
-        b.find_element(by=By.CLASS_NAME, value="btn_close").click()
-    time.sleep(1)
+    try:
+        logger.info("close ad...")
+        if b.find_element(by=By.CLASS_NAME, value="btn_close"):
+            b.find_element(by=By.CLASS_NAME, value="btn_close").click()
+        time.sleep(1)
+    except NoSuchElementException:
+        pass
 
     b.implicitly_wait(10)
+    logger.info("daka...")
     b.find_element(by=By.CLASS_NAME, value="icondaka").click()
     time.sleep(1)
 
