@@ -12,16 +12,18 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 def send(push_token, title, text):
     # http://www.pushplus.plus/send?token=XXXXX&title=XXX&content=XXX&template=html
-    requests.get(f"http://www.pushplus.plus/send?token={push_token}&title={title}&content={text}&template=html")
+    requests.get(f"https://www.pushplus.plus/send?token={push_token}&title={title}&content={text}&template=html")
 
 def sign_wss(user, password, token, msgs : list):
     chrome_options = Options()
+    chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+
     # 浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败
     chrome_options.add_argument('--headless')
     # 以最高权限运行
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    b = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
+    b = webdriver.Chrome(options=chrome_options)
 
     b.get('https://www.wenshushu.cn/signin')
 
