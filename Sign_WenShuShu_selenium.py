@@ -56,6 +56,8 @@ def sign_wss(user, password, token, msgs : list):
     time.sleep(1)
 
     b.implicitly_wait(10)
+    time.sleep(2)
+    
     # 获取页面源码
     html = b.page_source
 
