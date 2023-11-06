@@ -1,4 +1,3 @@
-import logging
 import os
 import re
 import time
@@ -43,7 +42,7 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
     time.sleep(2)
     b.refresh()
     b.implicitly_wait(10)
-    logger.info("正在登陆...")
+    print("正在登陆...")
     b.find_element(by=By.XPATH, value='//*[contains(text(),"密码登录")]').click()
     time.sleep(1)
     b.find_element(by=By.XPATH, value='//*[@placeholder="手机号 / 邮箱"]').send_keys(user)
@@ -58,7 +57,7 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
     time.sleep(1)
 
     try:
-        logger.info("关闭广告和新手任务中...")
+        print("关闭广告和新手任务中...")
         if b.find_element(by=By.CLASS_NAME, value="btn_close"):
             b.find_element(by=By.CLASS_NAME, value="btn_close").click()
         time.sleep(1)
@@ -66,7 +65,7 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
         pass
 
     b.implicitly_wait(10)
-    logger.info("{user} 正在打卡...".format(user=show_user_string))
+    print("{user} 正在打卡...".format(user=show_user_string))
     b.find_element(by=By.CLASS_NAME, value="icondaka").click()
     time.sleep(1)
 
@@ -85,20 +84,18 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
             if (names[i] == '手气不好'):
                 continue
             result += names[i] + '：' + values[i] + '</br>'
-            logger.info('%s:%s' % (
+            print('%s:%s' % (
                 names[i],
                 values[i].strip()))
         msg = (show_user_string + '文叔叔签到成功,', result)
     else:
         msg = (show_user_string + '文叔叔签到失败,', html)
-        logger.error(html.encode(encoding='UTF-8', errors='strict'))
+        print(html.encode(encoding='UTF-8', errors='strict'))
     msgs.append(msg)
 
     b.close()
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    logger = logging.getLogger(__name__)
     sys.stdout.reconfigure(encoding='utf-8')
 
     users = os.environ.get('USER')
@@ -128,8 +125,8 @@ if __name__ == '__main__':
             try:
                 sign_wss(user, password, push_token, msgs, show_user_string)
             except Exception as e:
-                logger.error("签到{user}账户时出现异常：{error_message}".format(user=show_user_string, error_message=traceback.format_exc()))
-                logger.info("已重试次数： " + str(retry + 1))
+                print("签到{user}账户时出现异常：{error_message}".format(user=show_user_string, error_message=traceback.format_exc()))
+                print("已重试次数： " + str(retry + 1))
                 success = False
             finally:
                 retry = retry + 1
