@@ -14,11 +14,12 @@
 **在本页面点击右上角的Fork按钮**![](http://ww1.sinaimg.cn/large/005W9YjGly1gnaeodm3sgj303a017a9t.jpg "Fork按钮")**，将本项目复制到自己仓库里。**
 
 ### 3.部署
-**在fork后的github仓库的 “Settings” -->“Secrets” 中添加"Secrets"，name(不用在意大小写)和value分别为：**
+**在fork后的github仓库的 `Settings` -->`Secrets and variables` -->`Actions` 中选择`New repository secret`添加"Secrets"，name(不用在意大小写)和value分别为：**
 ```
 USER   必填  value是你的账号
 PASSWORD   必填   value是你的密码
 PUSH_MESSAGE   选填   value是第一步获取到的Token
+SHOW_USER   选填   value是0或1或2，表示是否显示账号，0: 完全不显示（默认），1：显示部分（例如：131****1234，或aa******@github.com），2：完全显示
 ```
 
 
