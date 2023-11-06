@@ -19,7 +19,7 @@ def sign_wss(user, password, token, msgs : list):
     chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 
     # 浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败
-    # chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     # 以最高权限运行
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
