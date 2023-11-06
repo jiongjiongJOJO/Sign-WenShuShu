@@ -76,7 +76,7 @@ def sign_wss(user, password, token, msgs : list):
             logger.info('%s:%s' % (
                 names[i].encode('utf8').decode('unicode_escape'),
                 values[i].strip().encode('utf8').decode('unicode_escape')))
-        msg = (user + ',文叔叔签到成功,', result)
+        msg = (',文叔叔签到成功,', result)
     else:
         msg = (user + ',文叔叔签到失败,', html)
         logger.error(html.encode(encoding='UTF-8', errors='strict'))
