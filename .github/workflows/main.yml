@@ -30,3 +30,4 @@ jobs:
                   USER: ${{ secrets.USER }}
                   PASSWORD: ${{ secrets.PASSWORD }}
                   PUSH_MESSAGE: ${{ secrets.PUSH_MESSAGE }}
+                  SHOW_USER: ${{ secrets.SHOW_USER }}
