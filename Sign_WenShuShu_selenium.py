@@ -3,7 +3,7 @@ import os
 import re
 import time
 import traceback
-
+import sys
 import requests
 from selenium import webdriver
 from selenium.common import NoSuchElementException
@@ -86,8 +86,8 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
                 continue
             result += names[i] + '：' + values[i] + '</br>'
             logger.info('%s:%s' % (
-                names[i].encode('utf8').decode('unicode_escape'),
-                values[i].strip().encode('utf8').decode('unicode_escape')))
+                names[i],
+                values[i].strip()))
         msg = (show_user_string + '文叔叔签到成功,', result)
     else:
         msg = (show_user_string + '文叔叔签到失败,', html)
@@ -99,6 +99,7 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     logger = logging.getLogger(__name__)
+    sys.stdout.reconfigure(encoding='utf-8')
 
     users = os.environ.get('USER')
     password = os.environ.get('PASSWORD')
