@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 import time
@@ -84,19 +85,17 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
             if (names[i] == '手气不好'):
                 continue
             result += names[i] + '：' + values[i] + '</br>'
-            print('%s:%s' % (
-                names[i],
-                values[i].strip()))
+            print('%s:%s' % (names[i], values[i].strip()))
         msg = (show_user_string + '文叔叔签到成功,', result)
     else:
         msg = (show_user_string + '文叔叔签到失败,', html)
-        print(html.encode(encoding='UTF-8', errors='strict'))
+        print(html)
     msgs.append(msg)
 
     b.close()
 
 if __name__ == '__main__':
-    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stdout.reconfigure(encoding='UTF-8')
 
     users = os.environ.get('USER')
     password = os.environ.get('PASSWORD')
