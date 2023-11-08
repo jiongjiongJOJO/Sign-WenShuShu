@@ -30,10 +30,13 @@ def hide_user(user):
 
 def sign_wss(user, password, token, msgs : list, show_user_string : str):
     chrome_options = Options()
+    chrome_options.add_argument('disable-infobars')  # 取消显示信息栏（Chrome 正在受到自动软件的控制）
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")  # 禁用 Chrome 的自动化控制检测
     chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 
     # 浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败
-    chrome_options.add_argument('--headless')
+    if not debug_flag:
+        chrome_options.add_argument('--headless')
     # 以最高权限运行
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
@@ -101,6 +104,7 @@ if __name__ == '__main__':
     password = os.environ.get('PASSWORD')
     push_token = os.environ.get('PUSH_MESSAGE')
     show_user = os.environ.get('SHOW_USER')  # 0: 完全不显示（默认），1：显示部分（例如：131****1234），2：完全显示
+    debug_flag = os.environ.get('DEBUG')
     if show_user is None:
         show_user = 0
 
@@ -111,6 +115,10 @@ if __name__ == '__main__':
     if push_token is None:
         push_token = ""
     msgs = []
+    if debug_flag is None:
+        debug_flag = False
+    else:
+        debug_flag = True
 
     for user in users.split(';'):
         show_user_string = ''
