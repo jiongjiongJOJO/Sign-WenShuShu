@@ -1,4 +1,7 @@
-requests
-selenium
+selenium~=4.11.2
 webdriver-manager
 packaging
+numpy~=1.22.3
+pillow~=9.5.0
+requests~=2.31.0
+ddddocr~=1.4.8
