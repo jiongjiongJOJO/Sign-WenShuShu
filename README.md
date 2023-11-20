@@ -15,13 +15,23 @@
 
 ### 3.部署
 **在fork后的github仓库的 `Settings` -->`Secrets and variables` -->`Actions` 中选择`New repository secret`添加"Secrets"，name(不用在意大小写)和value分别为：**
-```
-USER   必填  value是你的账号
-PASSWORD   必填   value是你的密码
-PUSH_MESSAGE   选填   value是第一步获取到的Token
-SHOW_USER   选填   value是0或1或2，表示是否显示账号，0: 完全不显示（默认），1：显示部分（例如：131****1234，或aa******@github.com），2：完全显示
-```
 
+| key          | value                                                                          | 必填 |
+|--------------|--------------------------------------------------------------------------------|----|
+| USER         | 你的账号                                                                           | ✔️ |
+| PASSWORD     | 你的密码                                                                           | ✔️ |
+| PUSH_MESSAGE | 第一步获取到的Token                                                                   | ❌️ |
+| SHOW_USER    | 0或1或2，表示是否显示账号，0: 完全不显示（默认），1：显示部分（例如：131****1234，或aa******@github.com），2：完全显示 | ❌️ |
+
+例如：
+```json
+{
+  "USER": "彩许鲲",
+  "PASSWORD": "123456",
+  "PUSH_MESSAGE": "654321",
+  "SHOW_USER": 1
+}
+```
 
 ### 4.运行脚本
 **添加完上面的"Secrets"后，进入"Actions" -->"run main"，点击右边的"Run workflow"即可第一次启动**
