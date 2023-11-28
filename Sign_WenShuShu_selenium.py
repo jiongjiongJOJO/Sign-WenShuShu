@@ -175,7 +175,7 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
     b.switch_to.default_content()
     html = b.page_source
 
-    if '今日已打卡' in html or '打卡成功' in html:
+    if '今日已打卡' in html or 'Signed in today' in html or '' in html:
         html = html.replace('\n', '')
         names = re.compile('class="m-title5">(.*?)</div>').findall(html)
         values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
