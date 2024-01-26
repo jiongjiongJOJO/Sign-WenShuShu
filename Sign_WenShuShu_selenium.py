@@ -57,9 +57,9 @@ def captcha(element):
         if len(re_pix_result[0]) == 8:
             pos_x, pos_y, pix_x, pix_y, width, height, left, top = map(int, map(float, re_pix_result[0]))
         else:
-            raise Exception('获取验证码大小失败')
+            raise Exception(f'获取验证码大小失败, re_pix_result[0]: {re_pix_result[0]}')
     else:
-        raise Exception('获取验证码大小失败')
+        raise Exception(f'获取验证码大小失败, re_pix_result: {re_pix_result}')
 
     if len(re_pix2_result) != 0:
         if len(re_pix2_result[0]) == 2:
