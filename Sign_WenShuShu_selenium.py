@@ -236,7 +236,7 @@ if __name__ == '__main__':
                 sign_wss(user, password, push_token, msgs, show_user_string)
             except Exception as e:
                 print("签到{user}账户时出现异常：{error_message}".format(user=show_user_string, error_message=traceback.format_exc()))
-                print("已重试次数： {retry + 1}" + str(retry + 1))
+                print(f"已重试次数： {retry + 1}")
                 success = False
             finally:
                 retry = retry + 1
