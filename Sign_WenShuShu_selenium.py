@@ -1,23 +1,24 @@
+import html
 import os
 import re
-import time
-import traceback
 import sys
-import ddddocr
+import time
 from io import BytesIO
-from PIL import Image
+import traceback
+import ddddocr
 import requests
-import html
+from PIL import Image
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 
 
 def send(push_token, title, text):
     # http://www.pushplus.plus/send?token=XXXXX&title=XXX&content=XXX&template=html
-    requests.get(f"https://www.pushplus.plus/send?token={push_token}&title={title}&content={text}&template=html", proxies=proxies)
+    requests.get(f"https://www.pushplus.plus/send?token={push_token}&title={title}&content={text}&template=html",
+                 proxies=proxies)
 
 
 def hide_user(user):
@@ -56,9 +57,9 @@ def captcha(element):
         if len(re_pix_result[0]) == 8:
             pos_x, pos_y, pix_x, pix_y, width, height, left, top = map(int, map(float, re_pix_result[0]))
         else:
-            raise Exception('获取验证码大小失败')
+            raise Exception(f'获取验证码大小失败, re_pix_result[0]: {re_pix_result[0]}')
     else:
-        raise Exception('获取验证码大小失败')
+        raise Exception(f'获取验证码大小失败, re_pix_result: {re_pix_result}')
 
     if len(re_pix2_result) != 0:
         if len(re_pix2_result[0]) == 2:
@@ -98,16 +99,14 @@ def captcha(element):
     return ((res['target'][2] + res['target'][0]) // 2) - left - 30
 
 
-def sign_wss(user, password, token, msgs : list, show_user_string : str):
+def sign_wss(user, password, token, msgs: list, show_user_string: str):
     chrome_options = Options()
-    chrome_options.add_argument('disable-infobars')  # 取消显示信息栏（Chrome 正在受到自动软件的控制）
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")  # 禁用 Chrome 的自动化控制检测
-    chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
-
     # 浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败
     if not debug_flag:
         chrome_options.add_argument('--headless')
-    # 以最高权限运行
+    chrome_options.add_argument('disable-infobars')  # 取消显示信息栏（Chrome 正在受到自动软件的控制）
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")  # 禁用 Chrome 的自动化控制检测
+    # chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     b = webdriver.Chrome(options=chrome_options)
@@ -138,16 +137,19 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
         pass
 
     b.implicitly_wait(10)
-    print("{user} 正在打卡...".format(user=show_user_string))
-    b.find_element(by=By.CLASS_NAME, value="icondaka").click()
+    print(f"{show_user_string} 正在打卡...")
+    # headless 模式下icondaka直接click()好像有异常，需要换个玩法
+    # b.find_element(by=By.CLASS_NAME, value="icondaka").click()
+    ele = b.find_element(by=By.CLASS_NAME, value="icondaka")
+    ActionChains(b).move_to_element(ele).click(ele).perform()
 
     b.implicitly_wait(10)
     time.sleep(5)
 
     # 获取页面源码
-    html = b.page_source
+    htm = b.page_source
     try:
-        if '今日已打卡' not in html or '打卡成功' in html:
+        if '今日已打卡' not in htm or '打卡成功' in htm:
             # if b.find_element(by=By.CLASS_NAME, value='tc-fg-item'):
             #     print('发现验证码', b.page_source)
             # else:
@@ -165,33 +167,33 @@ def sign_wss(user, password, token, msgs : list, show_user_string : str):
             action = ActionChains(b)
             action.click_and_hold(element_slider).move_by_offset(iv, 0).release().perform()
             print('验证码处理完成')
-
-    except:
+    except Exception as e:
         # print(b.page_source)
         print(traceback.format_exc())
 
     time.sleep(5)
     b.implicitly_wait(10)
     b.switch_to.default_content()
-    html = b.page_source
+    htm = b.page_source
 
-    if '今日已打卡' in html or 'Signed in today' in html or '' in html:
-        html = html.replace('\n', '')
-        names = re.compile('class="m-title5">(.*?)</div>').findall(html)
-        values = re.compile('class="re-num m-text9">(.*?)</div>').findall(html)
+    if '今日已打卡' in htm or 'Signed in today' in htm or '' in htm:
+        htm = htm.replace('\n', '')
+        names = re.compile('class="m-title5">(.*?)</div>').findall(htm)
+        values = re.compile('class="re-num m-text9">(.*?)</div>').findall(htm)
         result = ''
         for i in range(len(names)):
-            if (names[i] == '手气不好'):
+            if names[i] == '手气不好':
                 continue
             result += names[i] + '：' + values[i] + '</br>'
             print('%s:%s' % (names[i], values[i].strip()))
         msg = (show_user_string + '文叔叔签到成功,', result)
     else:
-        msg = (show_user_string + '文叔叔签到失败,', html)
-        print(html)
+        msg = (show_user_string + '文叔叔签到失败,', htm)
+        print(htm)
     msgs.append(msg)
 
     b.close()
+
 
 if __name__ == '__main__':
     sys.stdout.reconfigure(encoding='UTF-8')
@@ -234,7 +236,7 @@ if __name__ == '__main__':
                 sign_wss(user, password, push_token, msgs, show_user_string)
             except Exception as e:
                 print("签到{user}账户时出现异常：{error_message}".format(user=show_user_string, error_message=traceback.format_exc()))
-                print("已重试次数： " + str(retry + 1))
+                print(f"已重试次数： {retry + 1}")
                 success = False
             finally:
                 retry = retry + 1

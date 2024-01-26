@@ -1,6 +1,6 @@
 selenium~=4.11.2
-webdriver-manager
-packaging
+# webdriver-manager
+# packaging
 numpy~=1.22.3
 pillow~=9.5.0
 requests~=2.31.0
