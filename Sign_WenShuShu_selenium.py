@@ -99,14 +99,14 @@ def captcha(element):
     return ((res['target'][2] + res['target'][0]) // 2) - left - 30
 
 
-def sign_wss(user, password, token, msgs: list, show_user_string: str, chrome_path: str):
+def sign_wss(user, password, token, msgs: list, show_user_string: str):
     chrome_options = Options()
     # 浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败
     if not debug_flag:
         chrome_options.add_argument('--headless')
     chrome_options.add_argument('disable-infobars')  # 取消显示信息栏（Chrome 正在受到自动软件的控制）
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")  # 禁用 Chrome 的自动化控制检测
-    chrome_options.binary_location = chrome_path if chrome_path else "C:\Program Files\Google\Chrome\Application\chrome.exe"
+    # chrome_options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     b = webdriver.Chrome(options=chrome_options)
@@ -208,7 +208,6 @@ if __name__ == '__main__':
     push_token = os.environ.get('PUSH_MESSAGE')
     show_user = os.environ.get('SHOW_USER')  # 0: 完全不显示（默认），1：显示部分（例如：131****1234），2：完全显示
     debug_flag = os.environ.get('DEBUG')
-    chrome_path = os.environ.get('CHROME_PATH')
     if show_user is None:
         show_user = 0
 
@@ -234,7 +233,7 @@ if __name__ == '__main__':
         while retry < 5:
             success = True
             try:
-                sign_wss(user, password, push_token, msgs, show_user_string, chrome_path)
+                sign_wss(user, password, push_token, msgs, show_user_string)
             except Exception as e:
                 print(f"签到{show_user_string}账户时出现异常：{e}")
                 print("已重试次数： {retry + 1}" + str(retry + 1))
