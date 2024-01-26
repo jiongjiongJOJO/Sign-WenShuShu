@@ -4,7 +4,7 @@ import re
 import sys
 import time
 from io import BytesIO
-
+import traceback
 import ddddocr
 import requests
 from PIL import Image
@@ -169,7 +169,7 @@ def sign_wss(user, password, token, msgs: list, show_user_string: str):
             print('验证码处理完成')
     except Exception as e:
         # print(b.page_source)
-        print(f'打卡失败：{e}')
+        print(traceback.format_exc())
 
     time.sleep(5)
     b.implicitly_wait(10)
@@ -235,7 +235,7 @@ if __name__ == '__main__':
             try:
                 sign_wss(user, password, push_token, msgs, show_user_string)
             except Exception as e:
-                print(f"签到{show_user_string}账户时出现异常：{e}")
+                print("签到{user}账户时出现异常：{error_message}".format(user=show_user_string, error_message=traceback.format_exc()))
                 print("已重试次数： {retry + 1}" + str(retry + 1))
                 success = False
             finally:
